@@ -1,5 +1,5 @@
 import numpy as np, json, wave
-SR=48000; DUR=54.0; N=int(SR*DUR); rng=np.random.default_rng(7)
+SR=48000; DUR=55.0; N=int(SR*DUR); rng=np.random.default_rng(7)
 t=np.arange(N)/SR
 def lp(x,fc):
     a=np.exp(-2*np.pi*fc/SR); y=np.empty_like(x); s=0.0
@@ -28,18 +28,18 @@ kick=np.zeros(N); kt=np.arange(int(.35*SR))/SR
 ks=np.sin(2*np.pi*(45*kt+60*(1-np.exp(-kt*30))/30*1))*np.exp(-kt*9)
 k=7.2
 while k<DUR-1.5:
-    if not(44.8<k<46.6):
+    if not(47.4<k<49.0):
         i=int(k*SR); kick[i:i+len(ks)]+=ks[:N-i]
     k+=beat
 hat=np.zeros(N); hs=rng.standard_normal(int(.05*SR))*np.exp(-np.arange(int(.05*SR))/SR*90); hs=hs-lp(hs,6000)
 h=18.6
 while h<DUR-1.5:
-    if not(44.8<h<46.6):
+    if not(47.4<h<49.0):
         i=int(h*SR+beat/2*SR); 
         if i+len(hs)<N: hat[i:i+len(hs)]+=hs*0.35
     h+=beat/2
 # riser before outro
-ri=np.zeros(N); a,b=int(44.0*SR),int(46.6*SR); rt=np.arange(b-a)/SR
+ri=np.zeros(N); a,b=int(46.6*SR),int(49.0*SR); rt=np.arange(b-a)/SR
 nz=rng.standard_normal(b-a); ri[a:b]=(nz-lp(nz,2000))*(rt/rt[-1])**2*0.25
 mus=pad+kick*0.55+hat+ri
 # fade in/out
